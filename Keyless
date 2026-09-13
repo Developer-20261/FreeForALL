@@ -1,1 +1,76 @@
-loadstring(game:HttpGet("https://pastefy.app/i6dxDoWi/raw"))()
+--==================================================
+-- PREMIUM LOCK SCREEN & COPY BUTTON
+-- LocalScript
+--==================================================
+
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Remove existing UI if any
+local oldGui = playerGui:FindFirstChild("PremiumLockScreen")
+if oldGui then
+	oldGui:Destroy()
+end
+
+-- Create ScreenGui covering full screen (PC & Mobile)
+local gui = Instance.new("ScreenGui")
+gui.Name = "PremiumLockScreen"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.DisplayOrder = 999999
+gui.Parent = CoreGui
+
+-- Full Black Background Frame
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+bg.BorderSizePixel = 0
+bg.Parent = gui
+
+-- Message Text Label
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(0.8, 0, 0.4, 0)
+textLabel.Position = UDim2.new(0.1, 0, 0.2, 0)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "BUY PREMIUM TO UNLOCK THE SCRIPT\n\nJOIN DISCORD SERVER:\nhttps://discord.gg/RrfxvAaMk"
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.TextScaled = true
+textLabel.Font = Enum.Font.GothamBold
+textLabel.Parent = bg
+
+-- Copy Button
+local copyBtn = Instance.new("TextButton")
+copyBtn.Size = UDim2.new(0.3, 0, 0.08, 0)
+copyBtn.Position = UDim2.new(0.35, 0, 0.65, 0)
+copyBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+copyBtn.BorderSizePixel = 0
+copyBtn.Text = "COPY DISCORD LINK"
+copyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyBtn.TextScaled = true
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.Parent = bg
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = copyBtn
+
+-- Copy Action Functionality
+copyBtn.MouseButton1Click:Connect(function()
+	local link = "https://discord.gg/RrfxvAaMk"
+	pcall(function()
+		if setclipboard then
+			setclipboard(link)
+		elseif toclipboard then
+			toclientboard(link)
+		end
+	end)
+	
+	copyBtn.Text = "COPIED!"
+	task.wait(2)
+	copyBtn.Text = "COPY DISCORD LINK"
+end)
+
+print("[PREMIUM LOCK] Screen loaded successfully.")
